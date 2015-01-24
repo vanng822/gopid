@@ -31,6 +31,11 @@ func getPid(pidFile string) int {
 	return existPid
 }
 
+// CheckPid will fatal if the pid file exists and not force,
+// any error when getting pid from this file will also cause fatal.
+// If no pid file live will go on.
+// If there is a pid it will try to kill that process and not fatal
+// even if it fails
 func CheckPid(pidFile string, force bool) {
 	log.Printf("Checking pid file %s", pidFile)
 	pid := getPid(pidFile)
@@ -50,6 +55,8 @@ func CheckPid(pidFile string, force bool) {
 	}
 }
 
+// CreatePid creates a pid file with the current pid.
+// It will fatal if can not create one
 func CreatePid(pidFile string) {
 	log.Printf("Creating pid file %s", pidFile)
 	pid := syscall.Getpid()
@@ -61,6 +68,8 @@ func CreatePid(pidFile string) {
 	pidf.Close()
 }
 
+// CleanPid will check first if the current process owns the pid in the file.
+// If it does then remove the file
 func CleanPid(pidFile string) {
 	log.Printf("Cleaning up pid file %s", pidFile)
 	existPid := getPid(pidFile)
