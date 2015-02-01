@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetPidNoPidFile(t *testing.T) {
-	assert.Equal(t, 0, getPid("somepid.pid"))
+	assert.Equal(t, 0, GetPid("somepid.pid"))
 }
 
 func TestCreatePidOK(t *testing.T) {	
@@ -28,7 +28,7 @@ func TestCheckForce(t *testing.T) {
 
 func TestCleanPid(t *testing.T) {
 	CreatePid(pidFile)
-	pid := getPid(pidFile)
+	pid := GetPid(pidFile)
 	assert.Equal(t, syscall.Getpid(), pid)
 	CleanPid(pidFile)
 	fi, err := os.Stat(pidFile)

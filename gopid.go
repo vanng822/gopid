@@ -11,7 +11,7 @@ import (
 )
 
 // Zero means no pid file detected, any other error will cause fatal
-func getPid(pidFile string) int {
+func GetPid(pidFile string) int {
 	if _, err := os.Stat(pidFile); err != nil {
 		return 0
 	}
@@ -43,7 +43,7 @@ func getPid(pidFile string) int {
 // even if it fails
 func CheckPid(pidFile string, force bool) {
 	log.Printf("Checking pid file %s", pidFile)
-	pid := getPid(pidFile)
+	pid := GetPid(pidFile)
 	if pid <= 0 {
 		return
 	}
@@ -91,7 +91,7 @@ func CreatePid(pidFile string) {
 // If it does then remove the file
 func CleanPid(pidFile string) {
 	log.Printf("Cleaning up pid file %s", pidFile)
-	existPid := getPid(pidFile)
+	existPid := GetPid(pidFile)
 	pid := syscall.Getpid()
 	if existPid != pid {
 		log.Printf("Not owning pidFile %s, current pid: %d, but pid from file: %d", pidFile, pid, existPid)
